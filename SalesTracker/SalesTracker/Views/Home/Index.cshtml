@@ -1,8 +1,59 @@
-﻿@{
+﻿@using SalesTracker.ViewModels;
+@model HomeVM
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+
+    <input hidden asp-for="@Model.SelectedIndex" />
+
+    <label for="dateList" class="form-label">Titles added since:</label>
+    <select class="form-control-sm d-inline" name="dates" id="dateList" onchange="dateInputChange()">
+        <option value="All Time">All Time</option>
+        @foreach (var item in Model.Dates)
+        {
+            <option value="@item.Date.ToShortDateString()">@item.Date.ToShortDateString()</option>
+        }
+    </select>
+
+    <span>Count: @Model.Editions.Count()</span>
+
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Sale Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Editions)
+            {
+                <tr>
+                    <td>
+                        <a href="@("https://www.instocktrades.com" + item.URL)" target="_blank">@item.Title</a>
+                    </td>
+                    <td>@item.Price</td>
+                    <td>@item.SaleType.Type</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+<script>
+    $("document").ready(function() {
+        let dateInput = document.getElementById("dateList");
+        let selectedIndex = document.getElementById("SelectedIndex").value;
+        dateInput.selectedIndex = selectedIndex;
+    });
+
+    function dateInputChange() {
+        let dateInput = document.getElementById("dateList");
+        if(dateInput.value != "") {
+            window.location.href = window.location.origin + "?date=" + dateInput.value + "&index=" + dateInput.selectedIndex;
+        }
+    }
+</script>

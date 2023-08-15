@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SalesTracker.Data;
 using SalesTracker.Models;
+using SalesTracker.ViewModels;
 using System.Diagnostics;
 
 namespace SalesTracker.Controllers
@@ -7,16 +10,36 @@ namespace SalesTracker.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SalesTrackerDBContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, SalesTrackerDBContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string date, int index)
         {
-            return View();
+            var model = new HomeVM();
+            model.Dates = _context.Editions.Select(s => s.LastUpdated.Date).Distinct().ToList();
+            
+
+            if(String.IsNullOrEmpty(date) || date == "All Time")
+            {
+                model.Editions = _context.Editions.Include(i => i.SaleType).OrderBy(o => o.Title).ToList();
+                model.SelectedIndex = 0;
+            }
+            else
+            {
+                var selectedDate = DateTime.Parse(date);
+                model.Editions = _context.Editions.Include(i => i.SaleType).Where(w => w.LastUpdated >= selectedDate).OrderBy(o => o.Title).ToList();
+                model.SelectedIndex = index;
+            }
+
+            return View(model);
         }
+
+
 
         public IActionResult Privacy()
         {
