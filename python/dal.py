@@ -36,6 +36,18 @@ class DAL:
         cursor = self.connect.cursor()
         cursor.executemany(insert, values)
         cursor.commit()
+
+    def execute_usp_update_entries(self):
+        cursor = self.connect.cursor()
+        sql = "exec dbo.usp_update_entries"
+        cursor.execute(sql)
+        cursor.commit()
+
+    def execute_usp_truncate_etl(self):
+        cursor = self.connect.cursor()
+        sql = "exec dbo.usp_truncate_etl"
+        cursor.execute(sql)
+        cursor.commit()
     
     def env_variable_replacer(self, original):
         replacement = ""

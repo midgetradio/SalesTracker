@@ -52,6 +52,10 @@ for sales_type in sales_types:
         #     print(e)
         #     print("---")
 
-print("Updating database....")
+print("Inserting into etl table....")
 dal.insert_editions(editions)
+print("Updating database...")
+dal.execute_usp_update_entries()
+print("Truncating etl table...")
+dal.execute_usp_truncate_etl()
 print("Complete.")
