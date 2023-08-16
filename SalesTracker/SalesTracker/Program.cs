@@ -1,3 +1,5 @@
+using ElmahCore.Mvc;
+using ElmahCore.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using SalesTracker.Data;
@@ -11,6 +13,12 @@ connectionString = EnvironmentVariableReplacer.Replace(connectionString);
 
 builder.Services.AddDbContext<SalesTrackerDBContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddElmah<SqlErrorLog>(elmahOptions =>
+{
+    elmahOptions.ConnectionString = connectionString;
+    elmahOptions.Path = "list_errors";
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -30,6 +38,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseElmah();
 
 app.MapControllerRoute(
     name: "default",
