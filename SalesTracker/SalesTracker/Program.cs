@@ -9,7 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-connectionString = EnvironmentVariableReplacer.Replace(connectionString);
+try
+{
+    connectionString = EnvironmentVariableReplacer.Replace(connectionString);
+}
+catch(Exception e)
+{
+    Console.WriteLine(e.Message);
+    Console.WriteLine("Connection String: " + connectionString);
+}
 
 builder.Services.AddDbContext<SalesTrackerDBContext>(options =>
     options.UseSqlServer(connectionString));

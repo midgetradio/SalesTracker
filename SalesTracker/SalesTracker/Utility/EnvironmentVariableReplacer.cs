@@ -28,7 +28,16 @@
                     if (indexStart < indexEnd)
                     {
                         var environmentVariable = originalString.Substring(indexStart + 1, indexEnd - (indexStart + 1));
-                        var val = Environment.GetEnvironmentVariable(environmentVariable);
+                        string? val = "";
+                        try
+                        {
+                            val = Environment.GetEnvironmentVariable(environmentVariable);
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e.ToString());
+                            Console.WriteLine("Variable: " + environmentVariable);
+                        }
                         replacement += val;
                         first = false;
                         indexStart = -1;
