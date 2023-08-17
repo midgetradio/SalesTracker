@@ -6,7 +6,7 @@ from edition import Edition
 from dal import DAL
 
 environment = os.getenv("ASPNETCORE_ENVIRONMENT")
-dal = DAL("Development")
+dal = DAL(environment)
 sales_types = dal.get_sales_types()
 editions = []
 

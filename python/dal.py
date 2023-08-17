@@ -17,7 +17,8 @@ class DAL:
             settingsFile = open(self.prod_root + os.sep + "appsettings.Production.json")
             settingsJson = json.load(settingsFile)
             self.connectionString = settingsJson["ConnectionStrings"]["PythonConnection"]
-
+            self.connectionString = self.env_variable_replacer(self.connectionString)
+            
         self.connect = pyodbc.connect(self.connectionString)    
     
     def get_sales_types(self):

@@ -1,23 +1,18 @@
 using ElmahCore.Mvc;
 using ElmahCore.Sql;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using SalesTracker.Data;
 using SalesTracker.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(AppContext.BaseDirectory);
+Console.WriteLine("BASE DIRECTORY: " + AppContext.BaseDirectory);
+builder.Configuration.AddJsonFile("appsettings.json");
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-try
-{
-    connectionString = EnvironmentVariableReplacer.Replace(connectionString);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e.Message);
-    Console.WriteLine("Connection String: " + connectionString);
-}
+Console.WriteLine("CONNECTION STRING BEFORE REPLACEMENT: " + connectionString);
+connectionString = EnvironmentVariableReplacer.Replace(connectionString);
+Console.WriteLine("CONNECTION STRING AFTER REPLACEMENT: " + connectionString);
 
 builder.Services.AddDbContext<SalesTrackerDBContext>(options =>
     options.UseSqlServer(connectionString));

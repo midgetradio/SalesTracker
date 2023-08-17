@@ -1,9 +1,17 @@
-﻿namespace SalesTracker.Utility
+﻿using SalesTracker.Migrations;
+using System.Data.SqlTypes;
+
+namespace SalesTracker.Utility
 {
     public static class EnvironmentVariableReplacer
     {
-        public static string Replace(string originalString)
+        public static string Replace(string? originalString)
         {
+            if (originalString == null)
+            {
+                originalString = "Data Source=localhost; Initial Catalog=SalesTracker; User ID=%SQL_UID%; Password=%SQL_PWD%";
+            }
+
             string replacement = "";
             bool first = false;
             bool pauseReplace = false;
