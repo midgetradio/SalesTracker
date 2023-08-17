@@ -13,7 +13,7 @@ try
 {
     connectionString = EnvironmentVariableReplacer.Replace(connectionString);
 }
-catch(Exception e)
+catch (Exception e)
 {
     Console.WriteLine(e.Message);
     Console.WriteLine("Connection String: " + connectionString);
