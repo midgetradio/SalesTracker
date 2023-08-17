@@ -6,7 +6,7 @@ using SalesTracker.Data;
 using SalesTracker.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration.SetBasePath(AppContext.BaseDirectory);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 try
