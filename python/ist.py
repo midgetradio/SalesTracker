@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-import re
+import datetime
 import os
 from edition import Edition
 from dal import DAL
@@ -21,6 +21,8 @@ for sales_type in sales_types:
         page_max = int(page_div['data-max'])
     page_count = 0
 
+    current_time = datetime.datetime.now()
+    print(current_time)
     print("Getting " + type + " sales...")
 
     while(page_count <= page_max):
