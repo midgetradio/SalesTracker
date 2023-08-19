@@ -10,6 +10,9 @@ dal = DAL(environment)
 sales_types = dal.get_sales_types()
 editions = []
 
+current_time = datetime.datetime.now()
+print(current_time)
+
 for sales_type in sales_types:
     type = sales_type[1]
     base_url = sales_type[2]
@@ -21,8 +24,6 @@ for sales_type in sales_types:
         page_max = int(page_div['data-max'])
     page_count = 0
 
-    current_time = datetime.datetime.now()
-    print(current_time)
     print("Getting " + type + " sales...")
 
     while(page_count <= page_max):
