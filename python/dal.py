@@ -4,7 +4,7 @@ import json
 
 class DAL:
     prod_root = "/var/www/SalesTracker"
-    dev_root = "C:\\Users\\midge\\Dev\\ISTSales\\SalesTracker\\SalesTracker"
+    dev_root = "D:\\Dev\\SalesTracker\\SalesTracker\\SalesTracker\\SalesTracker"
     
     def __init__(self, env):
         if(env == "Development"):
