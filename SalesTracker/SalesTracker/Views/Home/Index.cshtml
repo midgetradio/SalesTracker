@@ -5,7 +5,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
+<div class="container pt-3">
 
     <input hidden asp-for="@Model.SelectedIndex" />
 
@@ -20,6 +20,10 @@
 
     <span>Count: @Model.Editions.Count()</span>
 
+    <div class="float-end">
+    <button onclick="sortRows('price')">Sort By Price</button>
+    <button onclick="sortRows('title')">Sort By Title</button>
+    </div>
     <table class="table table-striped table-sm">
         <thead>
             <tr>
@@ -29,7 +33,7 @@
                 <th>Sale Type</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="sales-list-tbody">
             @foreach(var item in Model.Editions)
             {
                 <tr>
@@ -58,4 +62,74 @@
             window.location.href = window.location.origin + "?date=" + dateInput.value + "&index=" + dateInput.selectedIndex;
         }
     }
+
+    function getRows() {
+        let body = document.getElementById("sales-list-tbody");
+        let rowData = [];
+        for(let i = 0; i < body.rows.length; i++) {
+            let row = new Object();
+            row.title = body.rows[i].children[0].innerText;
+            row.url = body.rows[i].children[0].children[0].href;
+            row.price = body.rows[i].children[1].innerText;
+            row.salesType = body.rows[i].children[2].innerText;
+            rowData.push(row);
+        }
+
+        return rowData;
+    }
+
+    function clearTable() {
+        let body = document.getElementById("sales-list-tbody");
+        while(body.rows.length != 0) {
+            body.deleteRow(0);
+        }
+    }
+
+    function sortRows(sortType) {
+        let body = document.getElementById("sales-list-tbody");
+        let rows = getRows();
+        if(sortType == "price")
+            rows.sort(priceSort);
+        else 
+            rows.sort(titleSort);
+        clearTable();
+        for(let i = 0; i < rows.length; i++) {
+            let row = body.insertRow();
+            let titleCell = row.insertCell();
+            let a = document.createElement("a");
+            a.setAttribute("href", rows[i].url);
+            a.setAttribute("target", "_blank");
+            a.textContent = rows[i].title;
+            titleCell.appendChild(a);
+            let priceCell = row.insertCell();
+            priceCell.innerText = rows[i].price;
+            let typeCell = row.insertCell();
+            typeCell.innerText = rows[i].salesType;
+        }
+    }
+
+    var priceSort = function (x, y) {
+        let price_x = parseFloat(x.price.slice(1));
+        let price_y = parseFloat(y.price.slice(1));
+
+        if (price_x < price_y) {
+            return -1;
+        }
+        if (price_x > price_y) {
+            return 1;
+        }
+        return 0;
+    }
+
+    var titleSort = function (x, y) {
+        if (x.title < y.title) {
+            return -1;
+        }
+        if (x.title > y.title) {
+            return 1;
+        }
+        return 0;
+    }
+
+
 </script>

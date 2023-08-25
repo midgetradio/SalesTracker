@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-import re
+import datetime
 import os
 from edition import Edition
 from dal import DAL
@@ -9,6 +9,9 @@ environment = os.getenv("ASPNETCORE_ENVIRONMENT")
 dal = DAL(environment)
 sales_types = dal.get_sales_types()
 editions = []
+
+current_time = datetime.datetime.now()
+print(current_time)
 
 for sales_type in sales_types:
     type = sales_type[1]
