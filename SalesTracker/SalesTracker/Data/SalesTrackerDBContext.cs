@@ -21,6 +21,7 @@ namespace SalesTracker.Data
         public virtual DbSet<Edition> Editions { get; set; } = null!;
         public virtual DbSet<EditionETL> EditionsETL { get; set; } = null!;
         public virtual DbSet<SaleType> SaleTypes { get; set; } = null!;
+        public virtual DbSet<PageHits> PageHits { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

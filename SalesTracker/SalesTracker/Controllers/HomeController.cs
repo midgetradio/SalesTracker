@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SalesTracker.Data;
 using SalesTracker.Models;
+using SalesTracker.Utility;
 using SalesTracker.ViewModels;
 using System.Diagnostics;
 
@@ -9,13 +10,13 @@ namespace SalesTracker.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly SalesTrackerDBContext _context;
+        private readonly PageHitsTracker _tracker;
 
-        public HomeController(ILogger<HomeController> logger, SalesTrackerDBContext context)
+        public HomeController(SalesTrackerDBContext context, PageHitsTracker tracker)
         {
-            _logger = logger;
             _context = context;
+            _tracker = tracker;
         }
 
         public IActionResult Index(string date, int index)
@@ -36,14 +37,16 @@ namespace SalesTracker.Controllers
                 model.SelectedIndex = index;
             }
 
+            _tracker.AddPageHit(_context);
+
             return View(model);
         }
 
-
-
-        public IActionResult Privacy()
+        public IActionResult Stats()
         {
-            return View();
+            var model = _context.PageHits.ToList();
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

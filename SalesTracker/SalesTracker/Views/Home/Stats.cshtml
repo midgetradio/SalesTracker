@@ -1,0 +1,27 @@
+﻿@model List<SalesTracker.Models.PageHits>
+
+@{
+    ViewData["Title"] = "Stats - Sales Tracker";
+}
+
+<a href="~/Home/Index">Home</a>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model) 
+            {
+                <tr>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>@item.Hits</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

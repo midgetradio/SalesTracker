@@ -23,6 +23,8 @@ builder.Services.AddElmah<SqlErrorLog>(elmahOptions =>
     elmahOptions.Path = "list_errors";
 });
 
+builder.Services.AddSingleton<PageHitsTracker>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
