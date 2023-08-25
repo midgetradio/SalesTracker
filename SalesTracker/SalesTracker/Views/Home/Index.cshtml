@@ -25,6 +25,7 @@
             <tr>
                 <th>Title</th>
                 <th>Price</th>
+                <th>Discount</th>
                 <th>Sale Type</th>
             </tr>
         </thead>
@@ -36,6 +37,7 @@
                         <a href="@("https://www.instocktrades.com" + item.URL)" target="_blank">@item.Title</a>
                     </td>
                     <td>@item.Price</td>
+                    <td>@item.Discount</td>
                     <td>@item.SaleType.Type</td>
                 </tr>
             }

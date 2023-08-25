@@ -34,18 +34,22 @@ for sales_type in sales_types:
         title = ""
         link = ""
         price = ""
+        discount = ""
 
         for issue in issue_info:
             title_div = issue.find("div", class_="title")
             price_div = issue.find("div", class_="price")
+            discount_div = issue.find("div", class_="discount")
 
             if(title_div != None):
                 title = title_div.a.string
                 link = title_div.a.get('href')
             if(price_div != None):
                 price = price_div.string.strip()
+            if(discount_div != None):
+                discount = discount_div.next.strip()
 
-            e = Edition(title, link, price, sales_type[1])
+            e = Edition(title, link, price, discount, sales_type[1])
             editions.append(e)
 
         # for e in editions:
@@ -57,5 +61,5 @@ dal.insert_editions(editions)
 print("Updating database...")
 dal.execute_usp_update_entries()
 print("Truncating etl table...")
-dal.execute_usp_truncate_etl()
+# dal.execute_usp_truncate_etl()
 print("Complete.")
