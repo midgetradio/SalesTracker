@@ -27,17 +27,24 @@ namespace SalesTracker.Controllers
 
             if(String.IsNullOrEmpty(date) || date == "All Time")
             {
-                model.Editions = _context.Editions.Include(i => i.SaleType).OrderBy(o => o.Title).ToList();
+                model.Editions = _context.Editions.Include(i => i.SaleType).OrderBy(o => o.Title).Where(w => w.IsDeleted == false).ToList();
                 model.SelectedIndex = 0;
             }
             else
             {
                 var selectedDate = DateTime.Parse(date);
-                model.Editions = _context.Editions.Include(i => i.SaleType).Where(w => w.LastUpdated >= selectedDate).OrderBy(o => o.Title).ToList();
+                model.Editions = _context.Editions.Include(i => i.SaleType).Where(w => w.LastUpdated >= selectedDate && w.IsDeleted == false).OrderBy(o => o.Title).ToList();
                 model.SelectedIndex = index;
             }
 
             _tracker.AddPageHit(_context);
+
+            return View(model);
+        }
+
+        public IActionResult Removed()
+        {
+            var model = _context.Editions.Include(i => i.SaleType).Where(w => w.IsDeleted).ToList();
 
             return View(model);
         }

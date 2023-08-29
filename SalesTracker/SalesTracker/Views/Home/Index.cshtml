@@ -7,33 +7,42 @@
 <div class="container pt-2">
 
     <input hidden asp-for="@Model.SelectedIndex" />
+    <div class="row">
+        <div class="col-6">
+            <label for="dateList" class="form-label">Titles added since:</label>
+            <select class="form-control-sm d-inline" name="dates" id="dateList" onchange="dateInputChange()">
+                <option value="All Time">All Time</option>
+                @foreach (var item in Model.Dates)
+                {
+                    <option value="@item.Date.ToShortDateString()">@item.Date.ToShortDateString()</option>
+                }
+            </select>
+            <span id="count">Count: @Model.Editions.Count()</span>
+        </div>
 
-    <label for="dateList" class="form-label">Titles added since:</label>
-    <select class="form-control-sm d-inline" name="dates" id="dateList" onchange="dateInputChange()">
-        <option value="All Time">All Time</option>
-        @foreach (var item in Model.Dates)
-        {
-            <option value="@item.Date.ToShortDateString()">@item.Date.ToShortDateString()</option>
-        }
-    </select>
-
-    <span id="count">Count: @Model.Editions.Count()</span>
-
-    <div class="float-end">
-        <button onclick="sortRows('price')">Sort By Price</button>
-        <button onclick="sortRows('discount')">Sort By Discount</button>
-        <button onclick="sortRows('title')">Sort By Title</button>
+        <div class="col-6 text-end">
+            <button onclick="sortRows('price')">Sort By Price</button>
+            <button onclick="sortRows('discount')">Sort By Discount</button>
+            <button onclick="sortRows('title')">Sort By Title</button>
+        </div>
     </div>
 
-    <div class="text-end mt-3 mb-3">
-        <input type="checkbox" id="redTag" checked onclick="filterSaleTypes()" />
-        <label for="redTag">Red Tag</label>
+    <div class="row mt-2">
+        <div class="col-6 text-center">
+            <a asp-action="Removed">Titles Recently Removed</a>
+        </div>
 
-        <input type="checkbox" id="damages" checked onclick="filterSaleTypes()" />
-        <label for="damages">Damages</label>
+        <div class="col-6 text-end">
+            <input type="checkbox" id="redTag" checked onclick="filterSaleTypes()" />
+            <label for="redTag">Red Tag</label>
 
-        <input type="checkbox" id="clearance" checked onclick="filterSaleTypes()" />
-        <label for="clearance">Clearance</label>
+            <input type="checkbox" id="damages" checked onclick="filterSaleTypes()" />
+            <label for="damages">Damages</label>
+
+            <input type="checkbox" id="clearance" checked onclick="filterSaleTypes()" />
+            <label for="clearance">Clearance</label>
+
+        </div>
 
     </div>
 
@@ -44,6 +53,7 @@
                 <th>Price</th>
                 <th>Discount</th>
                 <th>Sale Type</th>
+                <th>Last Updated</th>
             </tr>
         </thead>
         <tbody id="sales-list-tbody">
@@ -56,6 +66,7 @@
                     <td>@item.Price</td>
                     <td>@item.Discount</td>
                     <td>@item.SaleType.Type</td>
+                    <td>@item.LastUpdated.ToShortDateString()</td>
                 </tr>
             }
         </tbody>

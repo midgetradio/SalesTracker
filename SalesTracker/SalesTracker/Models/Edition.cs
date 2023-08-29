@@ -19,5 +19,7 @@ namespace SalesTracker.Models
         public DateTime LastUpdated { get; set; }
 
         public virtual SaleType SaleType { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
     }
 }

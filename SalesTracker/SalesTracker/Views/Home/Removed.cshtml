@@ -1,0 +1,40 @@
+﻿@model List<SalesTracker.Models.Edition>
+
+@{
+    ViewData["Title"] = "Recently Removed";
+}
+
+<div class="container pt-2">
+
+    <div class="row">
+        <div class="col-6">
+            <h4>Titles Removed In The Last Week</h4>
+        </div>
+    </div>
+
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Sale Type</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody id="sales-list-tbody">
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>@item.Price</td>
+                    <td>@item.Discount</td>
+                    <td>@item.SaleType.Type</td>
+                    <td>@item.LastUpdated.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
