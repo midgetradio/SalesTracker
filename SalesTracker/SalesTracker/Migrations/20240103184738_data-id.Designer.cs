@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalesTracker.Data;
 
@@ -11,9 +12,10 @@ using SalesTracker.Data;
 namespace SalesTracker.Migrations
 {
     [DbContext(typeof(SalesTrackerDBContext))]
-    partial class SalesTrackerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240103184738_data-id")]
+    partial class dataid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

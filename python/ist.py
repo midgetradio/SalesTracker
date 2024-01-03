@@ -11,7 +11,10 @@ sales_types = dal.get_sales_types()
 editions = []
 
 current_time = datetime.datetime.now()
+print("==========================")
+print("Updating IST Sales Tracker")
 print(current_time)
+print("==========================")
 
 for sales_type in sales_types:
     type = sales_type[1]
@@ -38,21 +41,29 @@ for sales_type in sales_types:
         link = ""
         price = ""
         discount = ""
+        data_id = ""
 
         for issue in issue_info:
             title_div = issue.find("div", class_="title")
             price_div = issue.find("div", class_="price")
             discount_div = issue.find("div", class_="discount")
+            add_button = issue.find("button", class_="addtocart")
 
             if(title_div != None):
                 title = title_div.a.string
                 link = title_div.a.get('href')
             if(price_div != None):
                 price = price_div.string.strip()
+            else:
+                price = ""
             if(discount_div != None):
                 discount = discount_div.next.strip()
+            else:
+                discount = ""
+            if(add_button != None):
+                data_id = add_button.get("data-id")
 
-            e = Edition(title, link, price, discount, sales_type[1])
+            e = Edition(title, link, price, discount, sales_type[1], data_id)
             editions.append(e)
 
         # for e in editions:

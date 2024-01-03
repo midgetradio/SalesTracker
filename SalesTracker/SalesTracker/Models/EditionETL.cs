@@ -14,5 +14,7 @@ namespace SalesTracker.Models
         public string Discount { get; set; } = String.Empty;
 
         public string SaleType { get; set; } = String.Empty;
+
+        public string DataId { get; set; } = String.Empty;
     }
 }

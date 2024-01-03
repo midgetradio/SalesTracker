@@ -21,5 +21,7 @@ namespace SalesTracker.Models
         public virtual SaleType SaleType { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
+
+        public string DataId { get; set; } = String.Empty;
     }
 }

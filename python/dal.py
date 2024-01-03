@@ -29,10 +29,10 @@ class DAL:
         return sale_types
     
     def insert_editions(self, editions):
-        insert = "INSERT INTO EditionsETL(Title, URL, Price, Discount, SaleType) VALUES (?, ?, ?, ?, ?)"
+        insert = "INSERT INTO EditionsETL(Title, URL, Price, Discount, SaleType, DataId) VALUES (?, ?, ?, ?, ?, ?)"
         values = []
         for edition in editions:
-            values.append((edition.title, edition.url, edition.price, edition.discount, edition.sales_type))
+            values.append((edition.title, edition.url, edition.price, edition.discount, edition.sales_type, edition.data_id))
 
         cursor = self.connect.cursor()
         cursor.executemany(insert, values)
