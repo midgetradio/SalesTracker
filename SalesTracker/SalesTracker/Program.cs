@@ -27,6 +27,8 @@ builder.Services.AddSingleton<PageHitsTracker>();
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddMvc();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +47,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.UseElmah();
+
 
 app.MapControllerRoute(
     name: "default",
