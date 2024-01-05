@@ -71,7 +71,7 @@ for sales_type in sales_types:
         # for e in editions:
         #     print(e)
         #     print("---")
-print(f"{len(editions)} items will be added to the ETL table.")
+print(str(len(editions)) + " items will be added to the ETL table.")
 print("Inserting into etl table....")
 dal.insert_editions(editions)
 print("Updating database...")

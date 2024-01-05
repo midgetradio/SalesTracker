@@ -5,13 +5,13 @@ using SalesTracker.Data;
 using SalesTracker.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.SetBasePath(AppContext.BaseDirectory);
-Console.WriteLine("BASE DIRECTORY: " + AppContext.BaseDirectory);
-builder.Configuration.AddJsonFile("appsettings.json");
+
+var settings = builder.Configuration.GetSection("Settings").Get<Settings>();
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Console.WriteLine("CONNECTION STRING BEFORE REPLACEMENT: " + connectionString);
-connectionString = EnvironmentVariableReplacer.Replace(connectionString);
+connectionString = EnvironmentVariableReplacer.Replace(connectionString, settings);
 Console.WriteLine("CONNECTION STRING AFTER REPLACEMENT: " + connectionString);
 
 builder.Services.AddDbContext<SalesTrackerDBContext>(options =>
