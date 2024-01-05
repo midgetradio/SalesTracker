@@ -28,7 +28,7 @@ response_data = response.json()
 access_token = response_data['access_token']
 
 # get new titles from sales tracker api
-r = requests.get("https://localhost:7179/api/getlatest", verify=False)
+r = requests.get("https://salestracker.thehyperborean.net/api/getlatest")
 r_data = r.json()
 
 post_text = "# Titles added as of " + date.today().strftime("%d %B, %Y") + "\n"
