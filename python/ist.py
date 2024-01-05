@@ -62,6 +62,8 @@ for sales_type in sales_types:
                 discount = ""
             if(add_button != None):
                 data_id = add_button.get("data-id")
+            else:
+                data_id = ""
 
             e = Edition(title, link, price, discount, sales_type[1], data_id)
             editions.append(e)
@@ -69,7 +71,7 @@ for sales_type in sales_types:
         # for e in editions:
         #     print(e)
         #     print("---")
-
+print(f"{len(editions)} items will be added to the ETL table.")
 print("Inserting into etl table....")
 dal.insert_editions(editions)
 print("Updating database...")
