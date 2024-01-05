@@ -62,7 +62,7 @@ namespace SalesTracker.Controllers
 
         public IActionResult Stats()
         {
-            var model = _context.PageHits.ToList();
+            var model = _context.PageHits.OrderByDescending(o => o.Date).ToList();
 
             return View(model);
         }

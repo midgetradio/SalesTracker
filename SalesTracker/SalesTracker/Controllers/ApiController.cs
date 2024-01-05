@@ -24,6 +24,7 @@ namespace SalesTracker.Controllers
                                  .Include(i => i.SaleType)
                                  .Where(w => w.LastUpdated.Date == date.Date)
                                  .Select(s => new { s.Title, url = (s.SaleType.URL + s.URL), s.Price, s.Discount, s.SaleType.Type })
+                                 .OrderBy(o => o.Title)
                                  .ToList();
 
             return Ok(Json(result));

@@ -33,6 +33,8 @@ r_data = r.json()
 
 post_text = "# Titles added as of " + date.today().strftime("%d %B, %Y") + "\n"
 for x in range (len(r_data["value"])):
+    if(x == 10):
+        break
     title = r_data["value"][x]["title"]
     url = r_data["value"][x]["url"]
     price = r_data["value"][x]["price"]
@@ -49,4 +51,7 @@ post_data = {"sr": "sandboxtest", "title":"IST Sales Update", "text": post_text,
 headers = {"Authorization": ("bearer " + access_token), "User-Agent": "midgetradio"}
 response = requests.post("https://oauth.reddit.com/api/submit", headers=headers, data=post_data)
 
-print(response.json())
+response_data = response.json()
+
+if(response_data["success"] != True):
+    print(response_data["jquery"])
