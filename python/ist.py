@@ -4,6 +4,7 @@ import datetime
 import os
 from edition import Edition
 from dal import DAL
+from post_bot import POST_BOT
 
 environment = os.getenv("ASPNETCORE_ENVIRONMENT")
 dal = DAL(environment)
@@ -71,6 +72,8 @@ for sales_type in sales_types:
         # for e in editions:
         #     print(e)
         #     print("---")
+
+# Insert data into ETL, execute stored procedure, truncate etl table
 print(str(len(editions)) + " items will be added to the ETL table.")
 print("Inserting into etl table....")
 dal.insert_editions(editions)
@@ -78,4 +81,15 @@ print("Updating database...")
 dal.execute_usp_update_entries()
 print("Truncating etl table...")
 dal.execute_usp_truncate_etl()
+
+# Add post to reddit via bot
+print("Starting bot...")
+post_bot = POST_BOT()
+post_bot.get_auth_token()
+num = post_bot.get_new_titles()
+if(num > 0):
+    print(str(num) + " titles added.")
+    post_bot.create_submit_post()
+else:
+    print("No new titles to add.")
 print("Complete.")
