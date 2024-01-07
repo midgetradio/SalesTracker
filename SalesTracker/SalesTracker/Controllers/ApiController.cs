@@ -22,7 +22,7 @@ namespace SalesTracker.Controllers
 
             var result = _context.Editions
                                  .Include(i => i.SaleType)
-                                 .Where(w => w.LastUpdated.Date == date.Date)
+                                 .Where(w => w.LastUpdated.Date == date.Date && w.IsDeleted == false)
                                  .Select(s => new { s.Title, url = (s.SaleType.URL + s.URL), s.Price, s.Discount, s.SaleType.Type })
                                  .OrderBy(o => o.Title)
                                  .ToList();
