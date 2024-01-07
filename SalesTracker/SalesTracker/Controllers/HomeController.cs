@@ -22,7 +22,7 @@ namespace SalesTracker.Controllers
         public IActionResult Index(string date, int index)
         {
             var model = new HomeVM();
-            model.Dates = _context.Editions.Select(s => s.LastUpdated.Date).Distinct().Take(20).ToList();
+            model.Dates = _context.Editions.Where(w => w.IsDeleted == false).Select(s => s.LastUpdated.Date).Distinct().Take(20).ToList();
             model.Dates = model.Dates.OrderBy(o => o.Date).ToList();
 
             if(String.IsNullOrEmpty(date) || date == "All Time")
