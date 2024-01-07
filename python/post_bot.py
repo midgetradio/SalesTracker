@@ -44,12 +44,12 @@ class POST_BOT:
             title = self.r_data["value"][x]["title"]
             url = self.r_data["value"][x]["url"]
             price = self.r_data["value"][x]["price"]
-            if(x == len(self.r_data["value"]) - 1):
-                discount = self.r_data["value"][x]["discount"]
-            else:
-                discount = self.r_data["value"][x]["discount"]
+            discount = self.r_data["value"][x]["discount"]
             sale_type = self.r_data["value"][x]["type"]
-            line = "[" + title + " " + "]" + "(" + url + ")" + " " + price + " " + discount + " " + sale_type + "\\" + "\n"
+            if(x == len(self.r_data["value"]) - 1):
+                line = "[" + title + " " + "]" + "(" + url + ")" + " " + price + " " + discount + " " + sale_type + "\\" + "\n"
+            else:
+                line = "[" + title + " " + "]" + "(" + url + ")" + " " + price + " " + discount + " " + sale_type
             post_text += line
 
         post_data = {"sr": "sandboxtest", "title":"IST Sales Update", "text": post_text, "kind": "self"}
