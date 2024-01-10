@@ -51,6 +51,12 @@ class POST_BOT:
             else:
                 line = "[" + title + " " + "]" + "(" + url + ")" + " " + price + " " + discount + " " + sale_type + "\\" + "\n"
             post_text += line
+        
+        post_text += "\\"
+        post_text += "[IST Sales Tracker](https://salestracker.thehyperborean.net/)"
+        post_text += "\\"
+        post_text += "[InstockTrades](https://www.instocktrades.com/)"
+
 
         post_data = {"sr": "sandboxtest", "title":"IST Sales Update", "text": post_text, "kind": "self"}
 
