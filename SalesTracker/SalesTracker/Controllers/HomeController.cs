@@ -55,6 +55,8 @@ namespace SalesTracker.Controllers
             var model = _context.Editions
                                 .Include(i => i.SaleType)
                                 .Where(w => w.IsDeleted)
+                                .OrderByDescending(o => o.LastUpdated)
+                                .ThenBy(to => to.Title)
                                 .ToList();
 
             return View(model);
