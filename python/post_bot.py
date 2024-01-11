@@ -53,8 +53,10 @@ class POST_BOT:
             post_text += line
         
         post_text += "\\"
+        post_text += "\n"
         post_text += "[IST Sales Tracker](https://salestracker.thehyperborean.net/)"
         post_text += "\\"
+        post_text += "\n"
         post_text += "[InstockTrades](https://www.instocktrades.com/)"
 
 
