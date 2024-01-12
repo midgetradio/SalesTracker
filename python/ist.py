@@ -89,7 +89,7 @@ post_bot.get_auth_token()
 num = post_bot.get_new_titles()
 if(num > 0):
     print(str(num) + " titles added.")
-    post_bot.create_submit_post("submit")
+    post_bot.create_submit_post("edit")
 else:
     print("No new titles to add.")
 print("Complete.")
