@@ -19,6 +19,11 @@ class POST_BOT:
         self.r_user = secrets_json['REDDIT']['r_user']
         self.r_pwd = secrets_json['REDDIT']['r_pwd']
 
+        # define edit post and submit post urls
+        self.edit_post_url = "https://oauth.reddit.com/api/editusertext"
+        self.edit_post_thing_id = "t3_1951pjy"
+        self.submit_post_url = "https://oauth.reddit.com/api/submit"
+
     def get_auth_token(self):
         # get auth token from reddit
         client_auth = requests.auth.HTTPBasicAuth(self.r_app_user, self.r_app_secret)
@@ -37,7 +42,11 @@ class POST_BOT:
         return len(self.r_data["value"])
 
     # create and submit post
-    def create_submit_post(self):
+    def create_submit_post(self, submission_type):
+        # set auth header
+        headers = {"Authorization": ("bearer " + self.access_token), "User-Agent": "midgetradio"}
+
+        # create post content
         post_text = "# Titles added as of " + date.today().strftime("%d %B, %Y") + "\n"
 
         for x in range (len(self.r_data["value"])):
@@ -61,13 +70,19 @@ class POST_BOT:
         post_text += "\n"
         post_text += "[InstockTrades](https://www.instocktrades.com/)"
 
+        response_data = { "success": False }
 
-        post_data = {"sr": "sandboxtest", "title":"IST Sales Update", "text": post_text, "kind": "self"}
-
-        headers = {"Authorization": ("bearer " + self.access_token), "User-Agent": "midgetradio"}
-        response = requests.post("https://oauth.reddit.com/api/submit", headers=headers, data=post_data)
-
-        response_data = response.json()
+        # edit an existing post
+        if(submission_type == "edit"):
+            post_data = {"thing_id": self.edit_post_thing_id, "text": post_text}
+            response = requests.post(self.edit_post_url, headers=headers, data=post_data)
+            response_data = response.json()
+        
+        # submit a new post
+        if(submission_type == "submit"):
+            post_data = {"sr": "sandboxtest", "title":"IST Sales Update", "text": post_text, "kind": "self"}
+            response = requests.post(self.submit_post_url, headers=headers, data=post_data)
+            response_data = response.json()
 
         if(response_data["success"] != True):
             print("Failed to add post.")
