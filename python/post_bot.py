@@ -7,7 +7,7 @@ from datetime import date
 
 class POST_BOT:
     # initialze class with secrets
-    def __init__(self):
+    def __init__(self, thing_id):
         environment = os.getenv("ASPNETCORE_ENVIRONMENT")
         dal = DAL(environment)
         f = open(dal.secretsPath)
@@ -21,7 +21,7 @@ class POST_BOT:
 
         # define edit post and submit post urls
         self.edit_post_url = "https://oauth.reddit.com/api/editusertext"
-        self.edit_post_thing_id = "t3_1951pjy"
+        self.edit_post_thing_id = thing_id
         self.submit_post_url = "https://oauth.reddit.com/api/submit"
 
     def get_auth_token(self):

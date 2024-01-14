@@ -6,6 +6,11 @@ from edition import Edition
 from dal import DAL
 from post_bot import POST_BOT
 
+# post_type = edit | submit
+post_type = "edit"
+# full name of post
+thing_id = "t3_1951pjy"
+
 environment = os.getenv("ASPNETCORE_ENVIRONMENT")
 dal = DAL(environment)
 sales_types = dal.get_sales_types()
@@ -84,12 +89,12 @@ dal.execute_usp_truncate_etl()
 
 # Add post to reddit via bot
 print("Starting bot...")
-post_bot = POST_BOT()
+post_bot = POST_BOT(thing_id)
 post_bot.get_auth_token()
 num = post_bot.get_new_titles()
 if(num > 0):
     print(str(num) + " titles added.")
-    post_bot.create_submit_post("edit")
+    post_bot.create_submit_post(post_type)
 else:
     print("No new titles to add.")
 print("Complete.")
