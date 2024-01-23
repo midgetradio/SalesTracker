@@ -25,7 +25,7 @@ namespace SalesTracker.Controllers
             model.Dates = _context.Editions.Where(w => w.IsDeleted == false)
                                            .Select(s => s.LastUpdated.Date)
                                            .Distinct()
-                                           .OrderBy(o => o.Date)
+                                           .OrderByDescending(o => o.Date)
                                            .Take(10)
                                            .ToList();
             model.Dates = model.Dates.OrderBy(o => o.Date).ToList();
