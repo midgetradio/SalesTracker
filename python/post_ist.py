@@ -1,7 +1,7 @@
 from post_bot import POST_BOT
 
 # post_type = edit | submit
-post_type = "edit"
+post_type = "submit"
 # full name of post
 thing_id = "t3_1951pjy"
 
