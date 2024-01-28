@@ -23,8 +23,15 @@ namespace SalesTracker.Data
         public virtual DbSet<SaleType> SaleTypes { get; set; } = null!;
         public virtual DbSet<PageHits> PageHits { get; set; } = null!;
 
+        public virtual DbSet<ApiModel> ApiModel { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApiModel>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
             modelBuilder.Entity<EditionETL>(entity =>
             {
                 entity.HasNoKey();

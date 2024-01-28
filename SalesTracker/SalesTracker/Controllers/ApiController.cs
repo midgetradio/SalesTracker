@@ -18,13 +18,8 @@ namespace SalesTracker.Controllers
         [HttpGet]
         public ActionResult GetLatest()
         {
-            var date = DateTime.Now;
-
-            var result = _context.Editions
-                                 .Include(i => i.SaleType)
-                                 .Where(w => w.LastUpdated.Date == date.Date && w.IsDeleted == false)
-                                 .Select(s => new { s.Title, url = ("https://www.instocktrades.com" + s.URL), s.Price, s.Discount, s.SaleType.Type })
-                                 .OrderBy(o => o.Title)
+            var result = _context.ApiModel
+                                 .FromSqlRaw<ApiModel>("exec dbo.usp_api")
                                  .ToList();
 
             return Ok(Json(result));
