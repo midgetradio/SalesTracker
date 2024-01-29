@@ -65,7 +65,7 @@ class POST_BOT:
         post_text += "\n"
         post_text += "\\"
         post_text += "\n"
-        post_text += "For a complete list of sales visit the IST Sales Tracker site. (Updated every hour)." + "\\" + "\n"
+        post_text += "For a complete list of sales visit the IST Sales Tracker site (updated hourly)." + "\\" + "\n"
         post_text += "[IST Sales Tracker](https://salestracker.thehyperborean.net/)"
         post_text += "\\"
         post_text += "\n"
@@ -81,7 +81,7 @@ class POST_BOT:
         
         # submit a new post
         if(submission_type == "submit"):
-            post_data = {"sr": "sandboxtest", "title":"IST Sales Update", "text": post_text, "kind": "self"}
+            post_data = {"sr": "sandboxtest", "title":"IST Sales - Weekly Update", "text": post_text, "kind": "self"}
             response = requests.post(self.submit_post_url, headers=headers, data=post_data)
             response_data = response.json()
 
