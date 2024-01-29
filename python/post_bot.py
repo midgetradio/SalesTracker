@@ -3,7 +3,7 @@ import requests.auth
 import json
 import os
 from dal import DAL
-from datetime import date
+import datetime
 
 class POST_BOT:
     # initialze class with secrets
@@ -47,14 +47,14 @@ class POST_BOT:
         headers = {"Authorization": ("bearer " + self.access_token), "User-Agent": "midgetradio"}
 
         # create post content
-        post_text = "# Titles added as of " + date.today().strftime("%d %B, %Y") + "\n"
+        post_text = "# Titles added as of " + (datetime.date.today() - datetime.timedelta(days=7)).strftime("%d %B, %Y") + "\n" + "(Omnis, Epics, Completes)" + "\\" + "\n"
 
         for x in range (len(self.r_data["value"])):
             title = self.r_data["value"][x]["title"]
             url = self.r_data["value"][x]["url"]
             price = self.r_data["value"][x]["price"]
             discount = self.r_data["value"][x]["discount"]
-            sale_type = self.r_data["value"][x]["type"]
+            sale_type = self.r_data["value"][x]["salesType"]
             if(x == len(self.r_data["value"]) - 1):
                 line = "[" + title + " " + "]" + "(" + url + ")" + " " + price + " " + discount + " " + sale_type
             else:
@@ -65,6 +65,7 @@ class POST_BOT:
         post_text += "\n"
         post_text += "\\"
         post_text += "\n"
+        post_text += "For a complete list of sales visit the IST Sales Tracker site. (Updated every hour)." + "\\" + "\n"
         post_text += "[IST Sales Tracker](https://salestracker.thehyperborean.net/)"
         post_text += "\\"
         post_text += "\n"

@@ -20,6 +20,7 @@ namespace SalesTracker.Controllers
         {
             var result = _context.ApiModel
                                  .FromSqlRaw<ApiModel>("exec dbo.usp_api")
+                                 .OrderBy(o => o.Title)
                                  .ToList();
 
             return Ok(Json(result));
