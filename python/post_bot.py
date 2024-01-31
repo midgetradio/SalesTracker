@@ -47,7 +47,7 @@ class POST_BOT:
         headers = {"Authorization": ("bearer " + self.access_token), "User-Agent": "midgetradio"}
 
         # create post content
-        post_text = "# Titles added as of " + (datetime.date.today() - datetime.timedelta(days=7)).strftime("%d %B, %Y") + "\n" + "(Omnis, Epics, Completes)" + "\\" + "\n"
+        post_text = "# Titles added since " + (datetime.date.today() - datetime.timedelta(days=7)).strftime("%d %B, %Y") + "\n" + "*(Omnis, Epics, Completes, Absolutes, Deluxes)*" + "\n" + "\n"
 
         for x in range (len(self.r_data["value"])):
             title = self.r_data["value"][x]["title"]
@@ -81,7 +81,7 @@ class POST_BOT:
         
         # submit a new post
         if(submission_type == "submit"):
-            post_data = {"sr": "sandboxtest", "title":"IST Sales - Weekly Update", "text": post_text, "kind": "self"}
+            post_data = {"sr": "OmnibusCollectors", "title":"IST Sales - Weekly Update", "text": post_text, "flair_id": "4f8e0f16-d2bf-11eb-b960-0e495f026799", "kind": "self"}
             response = requests.post(self.submit_post_url, headers=headers, data=post_data)
             response_data = response.json()
 

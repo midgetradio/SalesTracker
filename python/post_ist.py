@@ -1,4 +1,5 @@
 from post_bot import POST_BOT
+import datetime
 
 # post_type = edit | submit
 post_type = "submit"
@@ -6,6 +7,11 @@ post_type = "submit"
 thing_id = "t3_1951pjy"
 
 # Add post to reddit via bot
+current_time = datetime.datetime.now()
+print("==========================")
+print("Adding Reddit Post")
+print(current_time.strftime("%d %B, %Y %H:%M:%S"))
+print("==========================")
 print("Starting bot...")
 post_bot = POST_BOT(thing_id)
 post_bot.get_auth_token()
