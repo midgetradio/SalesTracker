@@ -7,12 +7,13 @@ import datetime
 
 class POST_BOT:
     # initialze class with secrets
-    def __init__(self, thing_id):
-        environment = os.getenv("ASPNETCORE_ENVIRONMENT")
-        dal = DAL(environment)
-        f = open(dal.secretsPath)
+    def __init__(self, thing_id, is_test):
+        dal = DAL()
+        f = open(dal.secrets_path)
         secrets_json = json.load(f)
         f.close()
+        
+        self.is_test = is_test
 
         self.r_app_user = secrets_json['REDDIT']['r_app_user']
         self.r_app_secret =secrets_json['REDDIT']['r_app_secret']
@@ -81,12 +82,17 @@ class POST_BOT:
         
         # submit a new post
         if(submission_type == "submit"):
-            post_data = {"sr": "OmnibusCollectors", "title":"IST Sales - Weekly Update", "text": post_text, "flair_id": "4f8e0f16-d2bf-11eb-b960-0e495f026799", "kind": "self"}
+            post_data = None
+            if (self.is_test):
+                post_data = {"sr": "Test_Posts", "title":"IST Sales - Weekly Update", "text": post_text, "kind": "self"}
+            else:
+                post_data = {"sr": "Test_Posts", "title":"IST Sales - Weekly Update", "text": post_text, "flair_id": "4f8e0f16-d2bf-11eb-b960-0e495f026799", "kind": "self"}
             response = requests.post(self.submit_post_url, headers=headers, data=post_data)
             response_data = response.json()
 
         if(response_data["success"] != True):
             print("Failed to add post.")
-            print(response_data["jquery"])
+            print(str(response_data["jquery"]))
+            raise Exception("Failed to add post: " + str(response_data["jquery"]))
         else:
             print("Post added successfully.")

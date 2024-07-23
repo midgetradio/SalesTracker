@@ -3,26 +3,45 @@ import os
 import json
 
 class DAL:
-    prod_root = "/var/www/SalesTracker"
-    dev_root = "D:\\Dev\\SalesTracker\\SalesTracker\\SalesTracker\\SalesTracker"
-    # dev_root = "C:\\Users\\midge\\Dev\\ISTSales\\SalesTracker\\SalesTracker"
+    settings_json_filename = "settings.json"
     
-    def __init__(self, env):
-        if(env == "Development"):
-            settingsFile = open(self.dev_root + os.sep + "appsettings.Development.json")
-            settingsJson = json.load(settingsFile)
-            self.connectionString = settingsJson["ConnectionStrings"]["PythonConnection"]
-            self.connectionString = self.env_variable_replacer(self.connectionString)
-            self.secretsPath = settingsJson["Settings"]["SecretsPath"]
+    def __init__(self):
+        self.env = os.environ["ENVIRONMENT"]
+        self.secrets_path = os.environ["SECRETSPATH"]
+        self.settings_json_filepath = ""
+        self.secrets_json = ""
+        self.settings_json = ""
+        
+        # open secrets file
+        try:
+            secrets_json_file = open(self.secrets_path)
+            self.secrets_json = json.load(secrets_json_file)
+        except:
+            raise IOError("Unable to open secrets file: ")
+        
+        # open settings file
+        try:
+            settings_file = open(self.settings_json_filename)
+            self.settings_json = json.load(settings_file)
+        except:
+            raise IOError("Unable to open settings file: " + self.settings_json_filepath)
+        
+        if("Dev" in self.env):
+            self.connection_string = self.settings_json["ConnectionStrings"]["DevConnection"]
 
         else:
-            settingsFile = open(self.prod_root + os.sep + "appsettings.Production.json")
-            settingsJson = json.load(settingsFile)
-            self.connectionString = settingsJson["ConnectionStrings"]["PythonConnection"]
-            self.connectionString = self.env_variable_replacer(self.connectionString)
-            self.secretsPath = settingsJson["Settings"]["SecretsPath"]
-            
-        self.connect = pyodbc.connect(self.connectionString)    
+            self.connection_string = self.settings_json["ConnectionStrings"]["ProdConnection"]
+        
+        
+        # replace uid and pwd values
+        self.connection_string = self.secrets_replacer(self.connection_string, self.secrets_json)
+        self.connect = pyodbc.connect(self.connection_string)    
+        
+        # establish connection
+        try:
+            self.connect = pyodbc.connect(self.connection_string)
+        except Exception as error:
+            raise IOError("Unable to connect to database. " + str(error))
     
     def get_sales_types(self):
         cursor = self.connect.cursor()
@@ -53,7 +72,7 @@ class DAL:
         cursor.execute(sql)
         cursor.commit()
     
-    def env_variable_replacer(self, original):
+    def secrets_replacer(self, original, secrets_json):
         replacement = ""
         first = False
         pause_replace = False
@@ -70,8 +89,8 @@ class DAL:
                     index_end = i
                 if(index_start < index_end):
                     index_start = index_start + 1
-                    environment_variable = original[index_start:index_end]
-                    val = os.environ[environment_variable]
+                    variable_name = original[index_start:index_end]
+                    val = secrets_json["SQLSERVER"][variable_name]
                     replacement += val
                     first = False
                     index_start = -1
