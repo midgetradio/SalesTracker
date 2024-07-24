@@ -32,7 +32,7 @@ class DAL:
             # open settings file
             cwd = os.getcwd()
             try:
-                self.settings_json_filepath = "/home/midgetradio/Cron/SalesTrackerUpdater/python/"
+                self.settings_json_filepath = "/home/midgetradio/Cron/SalesTrackerUpdater/python/" + self.settings_json_filename
                 settings_file = open(self.settings_json_filepath)
                 self.settings_json = json.load(settings_file)
             except:
