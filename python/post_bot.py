@@ -86,7 +86,7 @@ class POST_BOT:
             if (self.is_test):
                 post_data = {"sr": "Test_Posts", "title":"IST Sales - Weekly Update", "text": post_text, "kind": "self"}
             else:
-                post_data = {"sr": "Test_Posts", "title":"IST Sales - Weekly Update", "text": post_text, "flair_id": "4f8e0f16-d2bf-11eb-b960-0e495f026799", "kind": "self"}
+                post_data = {"sr": "OmnibusCollectors", "title":"IST Sales - Weekly Update", "text": post_text, "flair_id": "4f8e0f16-d2bf-11eb-b960-0e495f026799", "kind": "self"}
             response = requests.post(self.submit_post_url, headers=headers, data=post_data)
             response_data = response.json()
 
