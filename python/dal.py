@@ -19,17 +19,25 @@ class DAL:
         except:
             raise IOError("Unable to open secrets file: ")
         
-        # open settings file
-        try:
-            settings_file = open(self.settings_json_filename)
-            self.settings_json = json.load(settings_file)
-        except:
-            raise IOError("Unable to open settings file: " + self.settings_json_filepath)
-        
         if("Dev" in self.env):
+            # open settings file
+            try:
+                settings_file = open(self.settings_json_filename)
+                self.settings_json = json.load(settings_file)
+            except:
+                raise IOError("Unable to open settings file: " + self.settings_json_filename)
             self.connection_string = self.settings_json["ConnectionStrings"]["DevConnection"]
 
         else:
+            # open settings file
+            cwd = os.getcwd()
+            try:
+                self.settings_json_filepath = cwd + os.pathsep() + "python"
+                settings_file = open(self.settings_json_filepath)
+                self.settings_json = json.load(settings_file)
+            except:
+                raise IOError("Unable to open settings file: " + self.settings_json_filename)
+            
             self.connection_string = self.settings_json["ConnectionStrings"]["ProdConnection"]
         
         
