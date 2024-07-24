@@ -32,11 +32,11 @@ class DAL:
             # open settings file
             cwd = os.getcwd()
             try:
-                self.settings_json_filepath = cwd + os.pathsep() + "python"
+                self.settings_json_filepath = "/home/midgetradio/Cron/SalesTrackerUpdater/python/"
                 settings_file = open(self.settings_json_filepath)
                 self.settings_json = json.load(settings_file)
             except:
-                raise IOError("Unable to open settings file: " + self.settings_json_filename)
+                raise IOError("Unable to open settings file: " + self.settings_json_filepath)
             
             self.connection_string = self.settings_json["ConnectionStrings"]["ProdConnection"]
         
