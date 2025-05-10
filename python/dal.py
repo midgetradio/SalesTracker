@@ -6,18 +6,19 @@ class DAL:
     settings_json_filename = "settings.json"
     
     def __init__(self):
-        self.env = os.environ["ENVIRONMENT"]
-        self.secrets_path = os.environ["SECRETSPATH"]
+        self.env = os.environ["ASPNETCORE_ENVIRONMENT"]
         self.settings_json_filepath = ""
-        self.secrets_json = ""
         self.settings_json = ""
+        self.sql_id = ""
+        self.sql_pwd = ""
         
-        # open secrets file
+        # get env variables
         try:
-            secrets_json_file = open(self.secrets_path)
-            self.secrets_json = json.load(secrets_json_file)
+            self.sql_id = os.environ["SQL_UID"]
+            self.sql_pwd = os.environ["SQL_PWD"]
         except:
-            raise IOError("Unable to open secrets file: ")
+            print("Unable to load sql pwd and id")
+            raise IOError()
         
         if("Dev" in self.env):
             # open settings file
@@ -42,13 +43,15 @@ class DAL:
         
         
         # replace uid and pwd values
-        self.connection_string = self.secrets_replacer(self.connection_string, self.secrets_json)
+        self.connection_string = self.connection_string.replace("{SQL_UID}", self.sql_id)
+        self.connection_string = self.connection_string.replace("{SQL_PWD}", self.sql_pwd)
         self.connect = pyodbc.connect(self.connection_string)    
         
         # establish connection
         try:
             self.connect = pyodbc.connect(self.connection_string)
         except Exception as error:
+            print("Unable to connect to database.")
             raise IOError("Unable to connect to database. " + str(error))
     
     def get_sales_types(self):
@@ -108,5 +111,3 @@ class DAL:
                 replacement += original[i]
         
         return replacement
-
-
