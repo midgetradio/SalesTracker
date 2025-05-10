@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
-
+#pragma warning disable CS8981
 namespace SalesTracker.Migrations
 {
     public partial class pagehits : Migration
