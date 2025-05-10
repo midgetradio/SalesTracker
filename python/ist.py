@@ -1,21 +1,17 @@
 from bs4 import BeautifulSoup
 import requests
 import datetime
-import os
+import sys
 from edition import Edition
 from dal import DAL
-from post_bot import POST_BOT
-from hyploggermod.hyplogger import HypLogger
 
-hlogger = HypLogger()
 dal = None
 
 try:
     dal = DAL()
 except Exception as error:
-    hlogger.log(False, 2, str(error))
     print(str(error))
-    quit()
+    sys.exit()
     
 sales_types = dal.get_sales_types()
 
@@ -83,7 +79,8 @@ try:
                 editions.append(e)
 except Exception as error:
     is_success = False
-    hlogger.log(is_success, 2, str(error))
+    print(str(error))
+    sys.exit()
 
 # Insert data into ETL, execute stored procedure, truncate etl table
 print(str(len(editions)) + " items will be added to the ETL table.")
@@ -92,21 +89,24 @@ try:
     dal.insert_editions(editions)
 except Exception as error:
     is_success = False
-    hlogger.log(is_success, 2, "Error inserting editions into etl table. " + str(error))
+    print("Error inserting editions into etl table. " + str(error))
+    sys.exit()
     
 print("Updating database...")
 try:
     dal.execute_usp_update_entries()
 except Exception as error:
     is_success = False
-    hlogger.log(is_success, 2, "Error executing update sp. " + str(error))
+    print("Error executing update sp. " + str(error))
+    sys.exit()
     
 print("Truncating etl table...")
 try:
     dal.execute_usp_truncate_etl()
 except Exception as error:
     is_success = False
-    hlogger.log(is_success, 2, "Error excecuting truncate sp. " + str(error))
+    print("Error excecuting truncate sp. " + str(error))
+    sys.exit()
     
 if (is_success):
-    hlogger.log(is_success, 2, "Successfully added " + str(len(editions)) + " items to ETL table and updated the database.")
+    print("Successfully added " + str(len(editions)) + " items to ETL table and updated the database.")
