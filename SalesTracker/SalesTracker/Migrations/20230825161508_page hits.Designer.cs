@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalesTracker.Data;
 
 #nullable disable
-
+#pragma warning disable CS8981
 namespace SalesTracker.Migrations
 {
     [DbContext(typeof(SalesTrackerDBContext))]
