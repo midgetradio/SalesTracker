@@ -1,5 +1,6 @@
 using ElmahCore.Mvc;
 using ElmahCore.Sql;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using SalesTracker.Data;
 using SalesTracker.Utility;
@@ -10,9 +11,24 @@ var settings = builder.Configuration.GetSection("Settings").Get<Settings>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine("CONNECTION STRING BEFORE REPLACEMENT: " + connectionString);
-connectionString = EnvironmentVariableReplacer.Replace(connectionString, settings);
-Console.WriteLine("CONNECTION STRING AFTER REPLACEMENT: " + connectionString);
+
+var sqlId = Environment.GetEnvironmentVariable("SQL_UID");
+var sqlPwd = Environment.GetEnvironmentVariable("SQL_PWD");
+
+if (String.IsNullOrEmpty(connectionString))
+{
+    Console.WriteLine("Could not load connection string.");
+    return;
+}
+
+if (String.IsNullOrEmpty(sqlPwd) || String.IsNullOrEmpty(sqlId))
+{
+    Console.WriteLine("Could not load sql user id or password");
+    return;
+}
+
+connectionString = connectionString.Replace("{SQL_UID}", sqlId);
+connectionString = connectionString.Replace("{SQL_PWD}", sqlPwd);
 
 builder.Services.AddDbContext<SalesTrackerDBContext>(options =>
     options.UseSqlServer(connectionString));
@@ -31,6 +47,16 @@ builder.Services.AddMvc();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+if (app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -39,7 +65,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
