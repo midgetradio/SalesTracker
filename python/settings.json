@@ -1,6 +1,0 @@
-{
-    "ConnectionStrings": {
-        "DevConnection": "Driver={ODBC Driver 17 for SQL Server}; Server=cuckoo; Integrated_Security=false; Trusted_Connection=no; Database=SalesTracker; UID={SQL_UID}; PWD={SQL_PWD}",
-        "ProdConnection": "Driver={ODBC Driver 17 for SQL Server}; Server=localhost; Database=SalesTracker; UID={SQL_UID}; PWD={SQL_PWD}; MARS_Connection=Yes;"
-    }
-}
