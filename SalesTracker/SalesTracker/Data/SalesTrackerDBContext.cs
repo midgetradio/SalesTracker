@@ -22,6 +22,7 @@ namespace SalesTracker.Data
         public virtual DbSet<EditionETL> EditionsETL { get; set; } = null!;
         public virtual DbSet<SaleType> SaleTypes { get; set; } = null!;
         public virtual DbSet<PageHits> PageHits { get; set; } = null!;
+        public virtual DbSet<SaleTypeETL> SaleTypesETL { get; set; } = null!;
 
         public virtual DbSet<ApiModel> ApiModel { get; set; } = null!;
 
@@ -33,6 +34,11 @@ namespace SalesTracker.Data
             });
 
             modelBuilder.Entity<EditionETL>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<SaleTypeETL>(entity =>
             {
                 entity.HasNoKey();
             });

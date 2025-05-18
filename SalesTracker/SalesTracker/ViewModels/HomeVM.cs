@@ -8,6 +8,7 @@ namespace SalesTracker.ViewModels
         public int SelectedIndex { get; set; }
         public List<DateTime> Dates { get; set; } = null!;
         public List<Edition> Editions { get; set; } = null!;
+        public List<SaleType> SaleTypes { get; set; } = null!;
 
     }
 }

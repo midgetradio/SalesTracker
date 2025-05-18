@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalesTracker.Data;
 
@@ -11,9 +12,10 @@ using SalesTracker.Data;
 namespace SalesTracker.Migrations
 {
     [DbContext(typeof(SalesTrackerDBContext))]
-    partial class SalesTrackerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250517234440_SaleTypeETL")]
+    partial class SaleTypeETL
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,6 +183,15 @@ namespace SalesTracker.Migrations
 
             modelBuilder.Entity("SalesTracker.Models.SaleTypeETL", b =>
                 {
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(50)
