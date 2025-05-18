@@ -29,8 +29,9 @@ namespace SalesTracker.Controllers
                                            .Take(10)
                                            .ToList();
             model.Dates = model.Dates.OrderBy(o => o.Date).ToList();
+            model.SaleTypes = _context.SaleTypes.Where(w => w.IsActive).ToList();
 
-            if(String.IsNullOrEmpty(date) || date == "All Time")
+            if (String.IsNullOrEmpty(date) || date == "All Time")
             {
                 model.Editions = _context.Editions
                                          .Include(i => i.SaleType)
