@@ -13,7 +13,7 @@ namespace SalesTracker.Models
         [MaxLength(20)]
         public string Discount { get; set; } = String.Empty;
 
-        public string SaleType { get; set; } = String.Empty;
+        public int SaleType { get; set; }
 
         public string DataId { get; set; } = String.Empty;
     }
