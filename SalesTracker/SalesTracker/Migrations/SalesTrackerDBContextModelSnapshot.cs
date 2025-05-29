@@ -111,9 +111,8 @@ namespace SalesTracker.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("SaleType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SaleType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
