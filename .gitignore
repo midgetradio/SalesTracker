@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+SalesTracker/SalesTracker/.env
+Api/.env
+Web/.angular/cache/21.2.17/Web
